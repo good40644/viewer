@@ -2,10 +2,7 @@
 <html lang="zh">
 <head>
 <meta charset="utf-8">
-<title>Viewer</title>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevateZoom.min.js"></script>
+<title>Magnifier Viewer</title>
 
 <style>
 body{
@@ -17,28 +14,76 @@ body{
   height:100vh;
 }
 
-img{
-  max-width:90%;
+/* 容器 */
+.magnifier-container{
+  position:relative;
+}
+
+/* 原圖 */
+#img{
+  width:500px;
+  max-width:90vw;
   border-radius:10px;
-  cursor: zoom-in;
+  display:block;
+}
+
+/* 放大鏡 lens */
+.lens{
+  position:absolute;
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  border:2px solid #fff;
+  background-repeat:no-repeat;
+  pointer-events:none;
+  display:none;
 }
 </style>
 </head>
 
 <body>
 
-<img 
-  id="zoom"
-  src="https://res.cloudinary.com/dwzzrduao/image/upload/v1776566069/IMG_7320_iacceh.jpg"
-  data-zoom-image="https://res.cloudinary.com/dwzzrduao/image/upload/v1776566069/IMG_7320_iacceh.jpg"
-/>
+<div class="magnifier-container">
+  <img id="img"
+    src="https://res.cloudinary.com/dwzzrduao/image/upload/v1776566069/IMG_7320_iacceh.jpg">
+
+  <div class="lens" id="lens"></div>
+</div>
 
 <script>
-$("#zoom").elevateZoom({
-  zoomType: "lens",
-  lensShape: "round",
-  lensSize: 200
-});
+const img = document.getElementById("img");
+const lens = document.getElementById("lens");
+
+const zoom = 2; // 放大倍率
+
+lens.style.backgroundImage = `url(${img.src})`;
+
+img.addEventListener("mousemove", moveLens);
+img.addEventListener("mouseenter", () => lens.style.display = "block");
+img.addEventListener("mouseleave", () => lens.style.display = "none");
+
+function moveLens(e){
+  const rect = img.getBoundingClientRect();
+
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  const lensSize = 120;
+
+  let lx = x - lensSize/2;
+  let ly = y - lensSize/2;
+
+  if(lx < 0) lx = 0;
+  if(ly < 0) ly = 0;
+  if(lx > rect.width - lensSize) lx = rect.width - lensSize;
+  if(ly > rect.height - lensSize) ly = rect.height - lensSize;
+
+  lens.style.left = lx + "px";
+  lens.style.top = ly + "px";
+
+  lens.style.backgroundSize = (rect.width * zoom) + "px " + (rect.height * zoom) + "px";
+  lens.style.backgroundPosition = `-${x * zoom - lensSize/2}px -${y * zoom - lensSize/2}px`;
+}
 </script>
 
 </body>
