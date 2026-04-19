@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
 <meta charset="utf-8">
-<title>Zoom Viewer</title>
+<title>Viewer</title>
 
-<script src="https://unpkg.com/cloudzoom"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevateZoom.min.js"></script>
 
 <style>
 body{
@@ -18,6 +19,8 @@ body{
 
 img{
   max-width:90%;
+  border-radius:10px;
+  cursor: zoom-in;
 }
 </style>
 </head>
@@ -25,15 +28,17 @@ img{
 <body>
 
 <img 
+  id="zoom"
   src="https://res.cloudinary.com/dwzzrduao/image/upload/v1776566069/IMG_7320_iacceh.jpg"
-  data-cloudzoom="
-    zoomImage: 'https://res.cloudinary.com/dwzzrduao/image/upload/v1776566069/IMG_7320_iacceh.jpg',
-    zoomPosition: 'inside'
-  "
+  data-zoom-image="https://res.cloudinary.com/dwzzrduao/image/upload/v1776566069/IMG_7320_iacceh.jpg"
 />
 
 <script>
-CloudZoom.quickStart();
+$("#zoom").elevateZoom({
+  zoomType: "lens",
+  lensShape: "round",
+  lensSize: 200
+});
 </script>
 
 </body>
