@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Zoom Viewer</title>
+
+<script src="https://unpkg.com/cloudzoom"></script>
+
+<style>
+body{
+  margin:0;
+  background:#111;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+img{
+  max-width:90%;
+}
+</style>
+</head>
+
+<body>
+
+<img 
+  src="https://res.cloudinary.com/dwzzrduao/image/upload/v1776566069/IMG_7320_iacceh.jpg"
+  data-cloudzoom="
+    zoomImage: 'https://res.cloudinary.com/dwzzrduao/image/upload/v1776566069/IMG_7320_iacceh.jpg',
+    zoomPosition: 'inside'
+  "
+/>
+
+<script>
+CloudZoom.quickStart();
+</script>
+
+</body>
+</html>
